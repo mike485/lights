@@ -11,14 +11,18 @@ port = "/dev/cu.usbmodem1471"
 board = pyfirmata.Arduino(port)
 sleep(5)
 
-# intialize pin 13
+# intialize pin 11
+# Three pin modes supportted o = output, i=input, p=PMW
 
-pin = board.get_pin('d:13:o')
+greenPin = board.get_pin('d:10:p')
+redPin = board.get_pin('d:11:p')
+#pin = board.get_pin('d:11:p')
 
 
 
 # intialize the main window with tile and size
 
+#Tkinter.Label(top, text="Time (seconds)").grid(column=2, row=1)
 top = Tkinter.Tk()
 top.title("Button for Pin Action")
 top.minsize(300, 30)
@@ -28,8 +32,11 @@ top.minsize(300, 30)
 
 def onStartButtonPress():
     timePeriod = timePeriodEntry.get()
-    timePeriod = float(timePeriod) 
+    timePeriod = float(timePeriod)
+    ledBrigtness = brightnessScale.get()
+    ledBrightness = float()
     startButton.config(state=Tkinter.DISABLED)
+    #pin.write(ledBrightness/100.0)
     pin.write(1)
     #Led will be on for a specific amount of time listed below
     sleep(timePeriod)
@@ -37,36 +44,43 @@ def onStartButtonPress():
     startButton.config(state=Tkinter.ACTIVE)
 
 
+                                
 timePeriodEntry = Tkinter.Entry(top, bd=5, width=25)
+brightnessScale = Tkinter.Scale(top, from_=0, to=100, orient=Tkinter.HORIZONTAL)                                
 startButton = Tkinter.Button(top, text = "Start", command=onStartButtonPress)
+exitButton = Tkinter.Button(top, text = "Exit", command=quit)
+
+greenCheckBox = Tkinter.Checkbutton(top, text = "Green light", variable=greenVar)
+                        
+                                
 # .pack() makes it available in the main window
 
-timePeriodEntry.pack()
+timePeriodEntry.grid(column=1,row=1)                                
+#timePeriodEntry.pack()
+brightnessScale.grid(column=1, row=2)
+#brightnessScale.pack() 
+
 #can manually shift the focus of the graphical pointer to the timePeriodEntry widget
 #using the focus_set method, it obtains the value from the timePeriodEntry object and convert
-# it into a float value using using the float fuction() 
-timePeriodEntry.focus_set() 
-startButton.pack()
+# it into a float value using using the float fuction()
 
+timePeriodEntry.focus_set()
+Tkinter.Label(top, text="Time (seconds)").grid(column=2, row=1)
+Tkinter.Label(top, text="Brightness (%)").grid(column=2, row=2)
+
+startButton.grid(column=1, row=3)
+exitButton.grid(column=2, row=3)
+
+#startButton.pack()
 # define StartButtonPress fuction
-
-
-    
-
-
 # Label Widget
-
 #hellolabel = Tkinter.Label(top, text = "Hello Label")
-
 # the pack geometry manager organizes the widgets into rows and columns
-
-
-
 #hellolabel.pack()
-
 # Start and open the Window
 # test update
 
 top.mainloop()
+
 
 
