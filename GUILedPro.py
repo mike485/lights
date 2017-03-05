@@ -78,7 +78,7 @@ exitButton.grid(column=2, row=3)
 # the pack geometry manager organizes the widgets into rows and columns
 #hellolabel.pack()
 # Start and open the Window
-# test update
+# Test update 2
 
 top.mainloop()
 
